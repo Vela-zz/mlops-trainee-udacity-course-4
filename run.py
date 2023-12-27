@@ -6,7 +6,8 @@ import tempfile
 from omegaconf import DictConfig
 
 _ALL_STEP = [
-    'data_cleaning'
+    'data_cleaning',
+    'training',
 ]
 
 
@@ -27,8 +28,18 @@ def run(config: DictConfig):
                 os.path.join(root_path, "src/data_clean"),
                 "main",
                 parameters={
-                    "input_data_path": config["data_path"]["input_path"],
-                    "output_data_path": config['data_path']["output_path"]
+                    "input_data_path": config["data_process"]["input_data_path"],  # NOQA: E501
+                    "output_data_path": config['data_process']["output_data_path"]  # NOQA: E501
+                },
+            )
+        if "training" in active_steps:
+            # Download file and load in W&B
+            _ = mlflow.run(
+                os.path.join(root_path, "src/training"),
+                "main",
+                parameters={
+                    "input_data_path": config["train"]["train_data_path"],
+                    "output_model_path": config['train']["output_model_path"]
                 },
             )
 

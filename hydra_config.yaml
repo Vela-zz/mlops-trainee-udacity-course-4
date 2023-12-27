@@ -1,7 +1,12 @@
 main:
   steps:
     - data_cleaning
+    - training
 
-data_path:
-  input_path: data/raw_data/
-  output_path: data/processed_data/
+data_process:
+  input_data_path: data/raw_data/
+  output_data_path: data/processed_data/
+
+train:
+  train_data_path: data/processed_data/cleaned_data.csv
+  output_model_path: model/
