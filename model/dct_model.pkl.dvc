@@ -1,0 +1,5 @@
+outs:
+- md5: 77ef8448cec9184833233ca9b562ea2e
+  size: 51466
+  hash: md5
+  path: dct_model.pkl
