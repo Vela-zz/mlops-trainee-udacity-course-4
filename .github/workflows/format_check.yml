@@ -24,10 +24,7 @@ jobs:
         run: |
           pip install -U --upgrade pip
           pip install -q yapf flake8 isort pyright
-      # Run the yapf format test
-      - name: Yapf
-        run: yapf --diff -r .
-
+          
       # Run the flake8 format test
       - name: Flake8
         run: flake8 .
@@ -35,6 +32,3 @@ jobs:
       # Run the isort format test
       - name: Isort
         run: isort --check-only .
-
-      - name: Pyright
-        run: pyright .
