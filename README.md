@@ -50,3 +50,27 @@ and
 ```bash
 pytest src/training/test_model.py
 ```
+
+## Project Rubic
+
+git
+
+- [x] Set up git with GitHub Actions.
+
+model buliding 
+
+- [x] Create a machine learning model, check src/training folder
+- [x] Write unit tests, check test under src/training
+- [x] Write a function that computes model metrics on slices of the data.
+check funciton src/training/model.py plot_model_disparity_on_fpr
+- [x] Write a model card. check modelcoard under /model folder
+
+API Creation
+
+- [x] Create a REST API. check main.py
+- [x] Create tests for an API. check test_main.py
+
+API Deployment
+
+- [x] Deploy an app to a Cloud Application Platform. check png under /screenshots folder
+- [x] Query live API. check png under /screenshots folder. run request_sample.py
