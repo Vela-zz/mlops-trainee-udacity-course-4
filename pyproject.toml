@@ -16,6 +16,8 @@ dvc = "^3.36.1"
 mlflow = "^2.9.2"
 fastapi = "^0.106.0"
 uvicorn = "^0.25.0"
+scipy = "^1.11.4"
+virtualenv = "^20.25.0"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.13.2"
@@ -24,5 +26,5 @@ pyright = "^1.1.343"
 yapf = "^0.40.2"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

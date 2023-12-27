@@ -1,0 +1,7 @@
+main:
+  steps:
+    - data_cleaning
+
+data_path:
+  input_path: data/raw_data/
+  output_path: data/processed_data/
