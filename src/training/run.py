@@ -8,7 +8,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from ml.data import process_data
-from ml.model import (train_model, compute_model_metrics)
+from ml.model import (train_model, compute_model_metrics,
+                      plot_model_disparity_on_fpr)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -56,12 +57,22 @@ def training(input_path: str, output_path: str):
                                         encoder=encoder, lb=lb)
     y_pred = model.predict(X_test)
     scores = compute_model_metrics(y_test, y_pred)
+
+    #
+    test_data = test_data.rename(columns={'salary': 'label_value'})
+    test_data['label_value'] = y_test
+    test_data['score'] = y_pred
+
+    plot_model_disparity_on_fpr(test_data[cat_features + ['score', 'label_value']],  # NOQA: E501
+                                output_path=output_path)
+
     logger.info("STEP[train]: (3/3) Eval Completed.")
     # save model and score
     with open(os.path.join(output_path, 'dct_model.pkl'), 'wb') as mf:
         pickle.dump(model, mf)
 
     with open(os.path.join(output_path, 'model_score.txt'), "w") as f:
+        f.write(f"Label Encoder: {lb.classes_}\n")
         for eval_metric, metric_score in scores.items():
             f.write(f"{eval_metric}: {metric_score:.3f}\n")
     logger.info("STEP[train]: Final Result Saved.")

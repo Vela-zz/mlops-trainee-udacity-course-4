@@ -1,9 +1,20 @@
+import os
+
 import numpy as np
+import pandas as pd
+
+from matplotlib import pyplot as plt
 from sklearn.model_selection import KFold
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
-
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+
+import aequitas
+from aequitas.group import Group
+from aequitas.bias import Bias
+from aequitas.plotting import Plot
+from aequitas.fairness import Fairness
+from aequitas.preprocessing import preprocess_input_df
 
 
 def train_model(X_train, y_train):
@@ -54,6 +65,24 @@ def compute_model_metrics(y, preds):
     return {"precision": precision,
             "recall": recall,
             "fbeta": fbeta}
+
+
+def plot_model_disparity_on_fpr(data: pd.DataFrame, output_path: str):
+    """calculate model's disparity on each catgorical features.
+
+    Args:
+        data (pd.DataFrame): a pandas dataframe with catgorical features and model's predict result  # NOQA:E501
+        output (str): a path of folder to save disparity on graph
+    """
+    df, _ = preprocess_input_df(data)
+    g = Group()
+    aqp = Plot()
+    xtab, _ = g.get_crosstabs(df)
+
+    figure, ax = plt.subplots(1, 1, figsize=(12, 32))
+    _ = aqp.plot_group_metric(xtab, 'fpr', ax=ax)
+    figure.savefig(os.path.join(output_path, "fpr_fiarness_graph.png"))
+
 
 def inference(model, X):
     """ Run model inferences and return the predictions.

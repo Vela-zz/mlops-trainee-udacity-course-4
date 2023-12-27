@@ -10,3 +10,5 @@ dependencies:
   - scikit-learn=1.3.2
   - pip:
       - mlflow==2.8.1
+      - aequitas
+
