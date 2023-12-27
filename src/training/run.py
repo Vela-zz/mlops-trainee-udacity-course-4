@@ -7,7 +7,7 @@ import pickle
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from ml.data import process_data
+from ml.data import process_data, cat_features
 from ml.model import (train_model, compute_model_metrics,
                       plot_model_disparity_on_fpr)
 
@@ -33,22 +33,15 @@ def training(input_path: str, output_path: str):
     data = load_data(input_path)
     logger.info("STEP[train]: (1/3) Data Loaded.")
     # generate k-fold
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
+
     # train, test split
     train_data, test_data = train_test_split(data, test_size=0.2)
 
     X_train, y_train, encoder, lb = process_data(train_data, categorical_features=cat_features,  # NOQA:E501
                                                  label="salary", training=True)
-
+    with open(os.path.join(output_path, 'encoder.pkl'), 'wb') as mf:
+        pickle.dump(encoder, mf)
+    # save model and score
     model = train_model(X_train, y_train)
     logger.info("STEP[train]: (2/3) Train Completed.")
     # eval on test dataset

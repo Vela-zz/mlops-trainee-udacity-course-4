@@ -9,13 +9,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
-import aequitas
-from aequitas.group import Group
-from aequitas.bias import Bias
-from aequitas.plotting import Plot
-from aequitas.fairness import Fairness
-from aequitas.preprocessing import preprocess_input_df
-
 
 def train_model(X_train, y_train):
     """
@@ -34,7 +27,7 @@ def train_model(X_train, y_train):
     """
 
     clf = DecisionTreeClassifier()
-    cv = KFold(5)
+    cv = KFold(5, shuffle=True, random_state=42)
     trainer = GridSearchCV(clf,
                            {"max_depth": np.linspace(5, 30, 6).astype(int)},
                            cv=cv)
@@ -74,6 +67,9 @@ def plot_model_disparity_on_fpr(data: pd.DataFrame, output_path: str):
         data (pd.DataFrame): a pandas dataframe with catgorical features and model's predict result  # NOQA:E501
         output (str): a path of folder to save disparity on graph
     """
+    from aequitas.group import Group
+    from aequitas.plotting import Plot
+    from aequitas.preprocessing import preprocess_input_df
     df, _ = preprocess_input_df(data)
     g = Group()
     aqp = Plot()
@@ -98,4 +94,5 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    preds = model.predict(X)
+    return preds
