@@ -1,7 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
-
 cat_features = [
     "workclass",
     "education",
@@ -22,7 +21,7 @@ def process_data(X, categorical_features=[], label=None,
     label binarizer for the labels. This can be used in either training or
     inference/validation.
 
-    Note: depending on the type of model used, you may want to add in 
+    Note: depending on the type of model used, you may want to add in
     functionality that scales the continuous data.
 
     Inputs

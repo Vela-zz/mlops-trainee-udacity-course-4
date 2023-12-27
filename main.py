@@ -1,12 +1,14 @@
 import os
 import pickle
+from typing import Literal
+
 import pandas as pd
-from src.training.ml.data import process_data, cat_features
-from src.training.ml.model import inference
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from pydantic import BaseModel, Field
-from typing import Literal
+
+from src.training.ml.data import cat_features, process_data
+from src.training.ml.model import inference
 
 # load model
 with open(os.path.join(os.getcwd(), "model/encoder.pkl"), 'rb') as f:
@@ -66,7 +68,7 @@ app = FastAPI()
 
 @app.get("/", response_class=ORJSONResponse)
 async def welcome_page():
-    return ORJSONResponse(content={"message": "Welcome to the Udacity MLops L4 model inference API!"})
+    return ORJSONResponse(content={"message": "Welcome to the Udacity MLops L4 model inference API!"})  # NOQA:E501
 
 
 @app.post("/predict", response_class=ORJSONResponse)

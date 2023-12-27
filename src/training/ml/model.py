@@ -2,12 +2,10 @@ import os
 
 import numpy as np
 import pandas as pd
-
 from matplotlib import pyplot as plt
-from sklearn.model_selection import KFold
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.model_selection import GridSearchCV, KFold
+from sklearn.tree import DecisionTreeClassifier
 
 
 def train_model(X_train, y_train):
@@ -38,7 +36,7 @@ def train_model(X_train, y_train):
 
 def compute_model_metrics(y, preds):
     """
-    Validates the trained machine learning model using precision, recall, and F1.
+    Validates the trained machine learning model using precision, recall, and F1.  # NOQA:E501
 
     Inputs
     ------

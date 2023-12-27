@@ -1,9 +1,11 @@
-import pytest
 import math
+
 import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.datasets import make_classification
+import pytest
 from sklearn.base import is_classifier
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LinearRegression
+
 from .ml.model import compute_model_metrics, inference, train_model
 
 
@@ -15,7 +17,7 @@ def test_compute_model_metrics(y_true: list, y_pred: list):
     prec, recall, fbeta = ans['precision'], ans['recall'], ans['fbeta']
 
     assert math.isclose(prec, 0.5, abs_tol=0.1), "calculate falut in precision"
-    assert math.isclose(recall, 0.666666, abs_tol=0.1), "calculate falut in recall"
+    assert math.isclose(recall, 0.666666, abs_tol=0.1), "calculate falut in recall"  # NOQA:E501
     assert math.isclose(fbeta, 0.5714, abs_tol=0.1), "calculate falut in fbeta"
 
 

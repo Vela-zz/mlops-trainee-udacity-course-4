@@ -1,15 +1,14 @@
-import os
-import logging
 import argparse
+import logging
+import os
+import pickle
 from pathlib import Path
 
-import pickle
 import pandas as pd
+from ml.data import cat_features, process_data
+from ml.model import (compute_model_metrics, plot_model_disparity_on_fpr,
+                      train_model)
 from sklearn.model_selection import train_test_split
-
-from ml.data import process_data, cat_features
-from ml.model import (train_model, compute_model_metrics,
-                      plot_model_disparity_on_fpr)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
