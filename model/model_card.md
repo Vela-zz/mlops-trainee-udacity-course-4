@@ -25,6 +25,11 @@ fbeta: 0.638
 
 ## Ethical Considerations
 
-The Graph below shows the FPR bias on features 
+The Graph below shows the FPR bias on features, pay attention to the attribute with high FPR. By using this model, you may face inaccurate
+result when predict high educated person, like bacheloars-school/doctor degree etc.
 
 ![bias-graph](/model/fpr_fiarness_graph.png)
+
+## Caveats and Recommendations
+
+The model itself is still in development. The recall and precision can reach higher score by applying a more fine-grained data cleaning and engineering step. And in current data engineering step, we handle native-country as a categorical features which makes the data become sparse, pre-divide the native-country into a class represent the GDP of that country may also help to imporve the model's ability.
