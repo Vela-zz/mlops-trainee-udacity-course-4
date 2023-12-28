@@ -13,7 +13,7 @@ def test_read_main():
     assert response.json() == {"message": "Welcome to the Udacity MLops L4 model inference API!"}  # NOQA: E501
 
 
-def test_predict():
+def test_predict_negative():
     response = client.post("/predict",
                            json={
                                 "age": 39,
@@ -31,7 +31,28 @@ def test_predict():
                                 "native-country": "United-States"
                             })
     assert response.status_code == 200
-    assert json.loads(response.content.decode())['pred'] in ['<=50K', '>50K']
+    assert json.loads(response.content.decode())['pred'] == "<=50K"
+
+
+def test_predict_positive():
+    response = client.post("/predict",
+                           json={
+                                "age": 52,
+                                "workclass": "Self-emp-inc",
+                                "fnlgt": 287927,
+                                "education": "HS-grad",
+                                "education-num": 9,
+                                "marital-status": "Married-civ-spouse",
+                                "occupation": "Exec-managerial",
+                                "relationship": "Wife",
+                                "race": "White",
+                                "sex": "Female",
+                                "capital-gain": 15024,
+                                "hours-per-week": 40,
+                                "native-country": "United-States"
+                            })
+    assert response.status_code == 200
+    assert json.loads(response.content.decode())['pred'] == '>50K'
 
 
 def test_predict_with_invalid_data():
