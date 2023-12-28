@@ -56,7 +56,7 @@ def training(input_path: str, output_path: str):
                                              y_pred=y_pred, y_true=y_test,
                                              feature_name='education')
 
-    with open(os.path.join(output_path, 'data_slice_eval.json'), 'w+') as f:
+    with open(os.path.join(output_path, 'slice_output.txt'), 'w+') as f:
         json.dump(perf_on_slice, f)
     #
     test_data = test_data.rename(columns={'salary': 'label_value'})
