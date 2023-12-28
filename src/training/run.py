@@ -1,14 +1,14 @@
 import argparse
+import json
 import logging
 import os
-import json
 import pickle
 from pathlib import Path
 
 import pandas as pd
 from ml.data import cat_features, process_data
-from ml.model import (compute_model_metrics, plot_model_disparity_on_fpr,
-                      train_model, compute_metrics_on_slice)
+from ml.model import (compute_metrics_on_slice, compute_model_metrics,
+                      plot_model_disparity_on_fpr, train_model)
 from sklearn.model_selection import train_test_split
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
