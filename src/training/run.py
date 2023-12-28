@@ -1,13 +1,14 @@
 import argparse
 import logging
 import os
+import json
 import pickle
 from pathlib import Path
 
 import pandas as pd
 from ml.data import cat_features, process_data
 from ml.model import (compute_model_metrics, plot_model_disparity_on_fpr,
-                      train_model)
+                      train_model, compute_metrics_on_slice)
 from sklearn.model_selection import train_test_split
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
@@ -34,7 +35,8 @@ def training(input_path: str, output_path: str):
     # generate k-fold
 
     # train, test split
-    train_data, test_data = train_test_split(data, test_size=0.2)
+    train_data, test_data = train_test_split(data, test_size=0.2,
+                                             random_state=42)
 
     X_train, y_train, encoder, lb = process_data(train_data, categorical_features=cat_features,  # NOQA:E501
                                                  label="salary", training=True)
@@ -49,7 +51,13 @@ def training(input_path: str, output_path: str):
                                         encoder=encoder, lb=lb)
     y_pred = model.predict(X_test)
     scores = compute_model_metrics(y_test, y_pred)
+    # evaluation on data slice
+    perf_on_slice = compute_metrics_on_slice(data=test_data,
+                                             y_pred=y_pred, y_true=y_test,
+                                             feature_name='education')
 
+    with open(os.path.join(output_path, 'data_slice_eval.json'), 'w+') as f:
+        json.dump(perf_on_slice, f)
     #
     test_data = test_data.rename(columns={'salary': 'label_value'})
     test_data['label_value'] = y_test
